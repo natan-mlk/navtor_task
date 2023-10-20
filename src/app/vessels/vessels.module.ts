@@ -10,6 +10,9 @@ import { VesselsComponent } from './components/vessels/vessels.component';
   ],
   imports: [
     CommonModule
+  ],
+  exports: [
+    
   ]
 })
 export class VesselsModule { }

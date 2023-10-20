@@ -7,6 +7,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { VesselsModule } from './vessels/vessels.module';
 import { EmissionsModule } from './emissions/emissions.module';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { EmissionsModule } from './emissions/emissions.module';
     NoopAnimationsModule,
     MaterialModule,
     VesselsModule,
-    EmissionsModule
+    EmissionsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
