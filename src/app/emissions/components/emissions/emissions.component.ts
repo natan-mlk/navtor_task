@@ -23,5 +23,5 @@ export class EmissionsComponent implements OnInit {
       }
     })
   }
-
+  
 }
