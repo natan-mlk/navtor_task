@@ -11,7 +11,7 @@ export class VesselsComponent implements OnInit {
 
   columns: any[] = [];
   dataSource: VesselDataModel[] = [];
-  displayedColumns: any;
+  displayedColumns: string[] = [];
 
   /** TODO VesselDataModel as nicknames? */
 
@@ -20,14 +20,14 @@ export class VesselsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getVesselsData();
     this.configureColumnsInTable();
+    this.getVesselsData();
   }
 
 
   private getVesselsData(): void {
     this.vesselsService.getVesselsCollection().subscribe({
-      next: (vessels)=> {
+      next: (vessels: VesselDataModel[])=> {
         console.log(vessels);
         this.fillTableWithData(vessels);
       }
@@ -65,7 +65,7 @@ export class VesselsComponent implements OnInit {
     this.displayedColumns = this.columns.map(column => column.columnDef);
   }
 
-  private fillTableWithData(vessels: any): void {
+  private fillTableWithData(vessels: VesselDataModel[]): void {
     this.dataSource = vessels;
   }
 }
