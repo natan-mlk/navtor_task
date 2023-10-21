@@ -8,6 +8,8 @@ import { EmissionsDataService } from '../../services/emissions-data.service';
 })
 export class EmissionsComponent implements OnInit {
 
+  emissionsData: any;
+
   constructor(
     private emissionsService: EmissionsDataService
   ) { }
@@ -19,9 +21,10 @@ export class EmissionsComponent implements OnInit {
   private getVesselsData(): void {
     this.emissionsService.getEmissionsCollection().subscribe({
       next: (emissions)=> {
+        this.emissionsData = emissions;
         console.log(emissions);
       }
     })
   }
-  
+
 }

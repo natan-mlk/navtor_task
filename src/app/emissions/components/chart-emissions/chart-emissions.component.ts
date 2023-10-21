@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges  } from '@angular/core';
 import * as Highcharts from 'highcharts';
+import { EmissionsCollectionModel } from '../../models/emissions.model';
 
 
 @Component({
@@ -7,43 +8,29 @@ import * as Highcharts from 'highcharts';
   templateUrl: './chart-emissions.component.html',
   styleUrls: ['./chart-emissions.component.scss']
 })
-export class ChartEmissionsComponent {
+export class ChartEmissionsComponent implements OnInit, OnChanges  {
+
+  @Input() emissionsData: EmissionsCollectionModel[] = [];
 
   Highcharts: any = Highcharts; 
+  // updateFlag = false;
+  chartOptions: any = undefined;
 
+  constructor() { }
 
-    data = [
-      {
-        ch4_emissions: 1.51,
-        co2_emissions: 94.05,
-        nox_emissions: 2.8,
-        pm_emissions: 0.37097,
-        report_from_utc: '2023-01-01T00:00:00Z',
-        report_to_utc: '2023-01-02T00:00:00',
-        sox_emissions: 1.62,
-      },
-      {
-        ch4_emissions: 1.203,
-        co2_emissions: 74.92,
-        nox_emissions: 2.23,
-        pm_emissions: 0.29618,
-        report_from_utc: '2023-01-22T05:00:00Z',
-        report_to_utc: '2023-01-23T06:00:00',
-        sox_emissions: 1.3,
-      },
-      {
-        ch4_emissions: 0.0535,
-        co2_emissions: 3.43,
-        nox_emissions: 0.07,
-        pm_emissions: 0.00474,
-        report_from_utc: '2023-02-01T06:00:00Z',
-        report_to_utc: '2023-02-01T12:12:00',
-        sox_emissions: 0.01,
-      },
-    ];
-  
+  ngOnInit(): void {
+  }
 
-    chartOptions: any = {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['emissionsData'] && this.emissionsData?.length > 0) {
+      this.generateChart();
+    }
+  }
+
+  private generateChart(): void {
+    /** For now just one chart - in progress */
+    const data = this.emissionsData[0].timeSeries;      
+    this.chartOptions = {
       chart: {
         type: 'line', 
       },
@@ -51,9 +38,9 @@ export class ChartEmissionsComponent {
         text: 'Emissions',
       },
       xAxis: {
-        categories: this.data.map(date => {
+        categories: data.map(date => {
             return Highcharts.dateFormat('%Y-%m-%d', new Date(date.report_from_utc).getTime());
-        })
+        }, 'report_from_utc')
       },
       yAxis: {
         title: {
@@ -62,25 +49,31 @@ export class ChartEmissionsComponent {
       },
       series: [
         {
+          type: 'line',
           name: 'CH4 Emissions',
-          data: this.data.map((item) => item.ch4_emissions),
+          data: data.map((item: any) => item.co2_emissions, 'ch4_emissions')
         },
         {
+          type: 'line',
           name: 'CO2 Emissions',
-          data: this.data.map((item) => item.co2_emissions),
+          data: data.map((item) => item.co2_emissions, 'co2_emissions')
         },
         {
+          type: 'line',
           name: 'NOx Emissions',
-          data: this.data.map((item) => item.nox_emissions),
+          data: data.map((item) => item.nox_emissions, 'nox_emissions')
         },
         {
+          type: 'line',
           name: 'PM Emissions',
-          data: this.data.map((item) => item.pm_emissions),
+          data: data.map((item) => item.pm_emissions, 'pm_emissions'),
         },
         {
+          type: 'line',
           name: 'SOx Emissions',
-          data: this.data.map((item) => item.sox_emissions),
+          data: data.map((item) => item.sox_emissions, 'sox_emissions'),
         },
       ],
     };
+  }
 }
