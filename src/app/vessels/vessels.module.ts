@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { VesselsComponent } from './components/vessels/vessels.component';
+import { MaterialModule } from '../material.module';
 
 
 
@@ -9,7 +10,8 @@ import { VesselsComponent } from './components/vessels/vessels.component';
     VesselsComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MaterialModule
   ],
   exports: [
     
