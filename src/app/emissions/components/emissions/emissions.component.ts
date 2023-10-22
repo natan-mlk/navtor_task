@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { EmissionsDataService } from '../../services/emissions-data.service';
 import { EmissionDataModel, EmissionsCollectionModel } from '../../models/emissions.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectEmissionsData } from '../../state/emissions.selectors';
+import { loadEmissions } from '../../state/emissions.actions';
+
 
 @Component({
   selector: 'app-emissions',
@@ -10,6 +13,9 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./emissions.component.scss']
 })
 export class EmissionsComponent implements OnInit, OnDestroy {
+
+  private emissionsData$ = this.store.select(selectEmissionsData);
+  private storeSubsciption: Subscription = Subscription.EMPTY;
 
   emissionsServerData: any;
   emissionsData: EmissionDataModel | undefined = undefined;
@@ -20,34 +26,35 @@ export class EmissionsComponent implements OnInit, OnDestroy {
   private formValueSubscription: Subscription = Subscription.EMPTY;
 
   constructor(
-    private emissionsService: EmissionsDataService
-  ) { }
+    private store: Store
+  ) { 
+    this.store.dispatch(loadEmissions());
+  }
 
   ngOnInit(): void {
-    this.getVesselsData();
-  }
-
-  ngOnDestroy() {
-    this.formValueSubscription.unsubscribe();
-  }
-
-  private getVesselsData(): void {
-    this.emissionsService.getEmissionsCollection().subscribe({
-      next: (emissions: EmissionsCollectionModel[])=> {
-        console.log('Emissions server data', emissions);
-        this.emissionsServerData = emissions;
-        this.setInitialFormValue();
-        const chosenEmissionsCollection: EmissionsCollectionModel | undefined = emissions.find(
+    this.storeSubsciption = this.emissionsData$
+      .subscribe({
+        next: (emissions: EmissionsCollectionModel[] | undefined) => {
+          this.emissionsServerData = emissions;
+          this.setInitialFormValue();
+          const chosenEmissionsCollection: EmissionsCollectionModel | undefined = emissions?.find(
             (item: EmissionsCollectionModel) => item.id === this.formGroup.value.chosenId
           );
         this.emissionsData = chosenEmissionsCollection?.timeSeries;
         this.setFormWatcher();
-      }
-    })
+        }
+      })
+  }
+
+  ngOnDestroy() {
+    this.formValueSubscription.unsubscribe();
+    this.storeSubsciption.unsubscribe();
   }
 
   private setInitialFormValue(): void {
-    this.formGroup.setValue({chosenId: this.emissionsServerData[0].id})
+    if(this.emissionsServerData?.length){
+      this.formGroup.setValue({chosenId: this.emissionsServerData[0].id})
+    }
   }
 
   private setFormWatcher(): void {

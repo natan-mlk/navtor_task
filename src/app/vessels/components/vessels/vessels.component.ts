@@ -1,37 +1,45 @@
-import { Component, OnInit } from '@angular/core';
-import { VesselsDataService } from '../../services/vessels-data.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { VesselDataModel } from '../../models/vessels.model';
+import { Subscription } from 'rxjs';
+
+import { Store } from '@ngrx/store';
+import { loadVessels } from '../../state/vessels.actions';
+import { selectVesselsData } from '../../state/vessels.selectors';
+
 
 @Component({
   selector: 'app-vessels',
   templateUrl: './vessels.component.html',
   styleUrls: ['./vessels.component.scss']
 })
-export class VesselsComponent implements OnInit {
+export class VesselsComponent implements OnInit, OnDestroy {
+
+  private vesselsData$ = this.store.select(selectVesselsData);
+  private storeSubsciption: Subscription = Subscription.EMPTY;
 
   columns: any[] = [];
   dataSource: VesselDataModel[] = [];
   displayedColumns: string[] = [];
 
-  /** TODO VesselDataModel as nicknames? */
 
   constructor(
-    private vesselsService: VesselsDataService
-  ) { }
+    private store: Store
+  ) { 
+    this.store.dispatch(loadVessels());
+  }
 
   ngOnInit(): void {
     this.configureColumnsInTable();
-    this.getVesselsData();
+    this.storeSubsciption = this.vesselsData$
+      .subscribe({
+        next: (vessels: VesselDataModel[]) => {
+          this.fillTableWithData(vessels);
+        }
+      })
   }
 
-
-  private getVesselsData(): void {
-    this.vesselsService.getVesselsCollection().subscribe({
-      next: (vessels: VesselDataModel[])=> {
-        console.log(vessels);
-        this.fillTableWithData(vessels);
-      }
-    })
+  ngOnDestroy(): void {
+    this.storeSubsciption.unsubscribe();
   }
 
   private configureColumnsInTable(): void {

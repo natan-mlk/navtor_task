@@ -8,7 +8,11 @@ import { MaterialModule } from './material.module';
 import { VesselsModule } from './vessels/vessels.module';
 import { EmissionsModule } from './emissions/emissions.module';
 import { HttpClientModule } from '@angular/common/http';
-
+import { StoreModule } from '@ngrx/store';
+import { appReducers } from './store/app.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { VesselsEffects } from './vessels/state/vessels.effects';
+import { EmissionsEffects } from './emissions/state/emissions.effects';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,9 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     VesselsModule,
     EmissionsModule,
-    HttpClientModule
+    HttpClientModule,
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([VesselsEffects, EmissionsEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]
