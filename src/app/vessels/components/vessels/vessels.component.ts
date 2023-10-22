@@ -24,15 +24,16 @@ export class VesselsComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store
-  ) { 
-    this.store.dispatch(loadVessels());
-  }
+  ) { }
 
   ngOnInit(): void {
     this.configureColumnsInTable();
     this.storeSubsciption = this.vesselsData$
       .subscribe({
         next: (vessels: VesselDataModel[]) => {
+          if (!vessels.length) {
+            this.store.dispatch(loadVessels());
+          }
           this.fillTableWithData(vessels);
         }
       })

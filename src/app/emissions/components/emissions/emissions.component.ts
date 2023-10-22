@@ -27,14 +27,15 @@ export class EmissionsComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store
-  ) { 
-    this.store.dispatch(loadEmissions());
-  }
+  ) {}
 
   ngOnInit(): void {
     this.storeSubsciption = this.emissionsData$
       .subscribe({
         next: (emissions: EmissionsCollectionModel[] | undefined) => {
+          if (!emissions?.length) {
+            this.store.dispatch(loadEmissions());
+          }
           this.emissionsServerData = emissions;
           this.setInitialFormValue();
           const chosenEmissionsCollection: EmissionsCollectionModel | undefined = emissions?.find(

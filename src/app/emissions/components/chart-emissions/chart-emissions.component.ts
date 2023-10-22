@@ -22,7 +22,6 @@ export class ChartEmissionsComponent implements OnInit, OnChanges  {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['emissionsData'] && changes['emissionsData'].currentValue) {
-      console.log('NEW DATA', changes['emissionsData'].currentValue);
       this.generateChart();
     }
   }
