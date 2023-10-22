@@ -1,4 +1,9 @@
 .active-link.mat-mdc-outlined-button:not(:disabled) {
     color: #9c27b0;
     font-weight: bold;
+    text-decoration: underline;
+}
+
+.menu-item {
+    margin-left: 15px;
 }

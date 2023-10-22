@@ -1,14 +1,25 @@
-<div *ngIf="emissionsServerData">
-    <form [formGroup]="formGroup">
-    <mat-form-field>
-        <mat-label>Select</mat-label>
-        <mat-select formControlName="chosenId">
-        <mat-option *ngFor="let chosenEmissionData of emissionsServerData"
-             [value]="chosenEmissionData.id">{{chosenEmissionData.id}}</mat-option>
-        </mat-select>
-    </mat-form-field>
-    </form>
-</div>
+<mat-card>
+    <mat-card-header class="title">
+      <mat-card-title>
+        Emissions
+      </mat-card-title>
+    </mat-card-header>
+  
+    <mat-card-content>
+        <div *ngIf="emissionsServerData">
+            <form [formGroup]="formGroup">
+            <mat-form-field color="accent">
+                <mat-label>Select</mat-label>
+                <mat-select formControlName="chosenId">
+                <mat-option *ngFor="let chosenEmissionData of emissionsServerData"
+                    [value]="chosenEmissionData.id">{{chosenEmissionData.id}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            </form>
+        </div>
 
-<app-chart-emissions [emissionsData]="emissionsData"></app-chart-emissions>
+        <app-chart-emissions [emissionsData]="emissionsData"></app-chart-emissions>
+    </mat-card-content>
+</mat-card>
+
 
