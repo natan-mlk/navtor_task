@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { EmissionsComponent } from './components/emissions/emissions.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { ChartEmissionsComponent } from './components/chart-emissions/chart-emissions.component';
-
+import { MaterialModule } from '../material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -13,7 +14,10 @@ import { ChartEmissionsComponent } from './components/chart-emissions/chart-emis
   ],
   imports: [
     CommonModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
   ]
 })
 export class EmissionsModule { }
