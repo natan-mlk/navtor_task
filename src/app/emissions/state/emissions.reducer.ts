@@ -4,14 +4,14 @@ import { EmissionsCollectionModel } from '../models/emissions.model';
 
 export interface EmissionsState {
   dataEmissions: EmissionsCollectionModel[];
-  loading: boolean;
-  error: any;
+  loadingEmissions: boolean;
+  errorEmissions: any;
 }
 
 const initialState: EmissionsState = {
   dataEmissions: [],
-  loading: false,
-  error: null,
+  loadingEmissions: false,
+  errorEmissions: null,
 };
 
 export const emissionsReducer = createReducer(

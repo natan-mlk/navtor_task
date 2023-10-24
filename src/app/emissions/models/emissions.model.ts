@@ -12,4 +12,5 @@ export interface EmissionDataModel {
 export interface EmissionsCollectionModel {
     id: number;
     timeSeries: EmissionDataModel;
+    name?: string;
 }

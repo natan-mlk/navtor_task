@@ -8,7 +8,7 @@ import { EmissionsDataService } from '../services/emissions-data.service';
 
 @Injectable()
 export class EmissionsEffects {
-  loadVessels$ = createEffect(() =>
+  loadEmissions$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EmissionsActions.loadEmissions),
       mergeMap(() =>

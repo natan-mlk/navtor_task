@@ -3,7 +3,6 @@ import { VesselDataModel } from '../../models/vessels.model';
 import { Subscription } from 'rxjs';
 
 import { Store } from '@ngrx/store';
-import { loadVessels } from '../../state/vessels.actions';
 import { selectVesselsData } from '../../state/vessels.selectors';
 
 
@@ -31,9 +30,6 @@ export class VesselsComponent implements OnInit, OnDestroy {
     this.storeSubsciption = this.vesselsData$
       .subscribe({
         next: (vessels: VesselDataModel[]) => {
-          if (!vessels.length) {
-            this.store.dispatch(loadVessels());
-          }
           this.fillTableWithData(vessels);
         }
       })

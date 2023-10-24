@@ -4,7 +4,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectEmissionsData } from '../../state/emissions.selectors';
-import { loadEmissions } from '../../state/emissions.actions';
 
 
 @Component({
@@ -33,9 +32,6 @@ export class EmissionsComponent implements OnInit, OnDestroy {
     this.storeSubsciption = this.emissionsData$
       .subscribe({
         next: (emissions: EmissionsCollectionModel[] | undefined) => {
-          if (!emissions?.length) {
-            this.store.dispatch(loadEmissions());
-          }
           this.emissionsServerData = emissions;
           this.setInitialFormValue();
           const chosenEmissionsCollection: EmissionsCollectionModel | undefined = emissions?.find(

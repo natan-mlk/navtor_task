@@ -12,7 +12,7 @@
                 <mat-label>Select</mat-label>
                 <mat-select formControlName="chosenId">
                 <mat-option *ngFor="let chosenEmissionData of emissionsServerData"
-                    [value]="chosenEmissionData.id">{{chosenEmissionData.id}}</mat-option>
+                    [value]="chosenEmissionData.id">{{chosenEmissionData.name}}</mat-option>
                 </mat-select>
             </mat-form-field>
             </form>
