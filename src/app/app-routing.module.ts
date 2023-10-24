@@ -4,7 +4,7 @@ import { EmissionsComponent } from './emissions/components/emissions/emissions.c
 import { VesselsComponent } from './vessels/components/vessels/vessels.component';
 
 const routes: Routes = [
-  {path: '', component: VesselsComponent},
+  {path: '', redirectTo: 'vessels', pathMatch: 'full'},
   {path: 'vessels', component: VesselsComponent},
   {path: 'emissions', component: EmissionsComponent},
 ];
